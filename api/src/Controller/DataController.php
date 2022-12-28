@@ -143,9 +143,9 @@ class DataController
                 'status' => true,
                 'message' => 'global data',
                 'data' => [
-                    'tickets' => $dataTickets,
+                    'tickets' => $dataTickets ? $dataTickets : [],
                     'user' => $dataUser,
-                    'hours' => $dataHours,
+                    'hours' => $dataHours ? $dataHours : 0,
                     'days' => $arrayDataDays,
                     'dias_ad' => array_reverse($dias_adicionales),
                     'total_horas' => $total_horas
