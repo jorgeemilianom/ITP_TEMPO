@@ -10,7 +10,7 @@ import './Container.css';
 
 export const Container = () => {
   const DataList = useSelector(state => state.data);
-  const { days, tickets, dias_ad, total_horas } = DataList.data;
+  const { days, tickets, dias_ad, total_horas, user } = DataList.data;
 
   if (days && tickets) {
     return (
@@ -29,7 +29,7 @@ export const Container = () => {
               })}
               {Object.keys(days).map((value, index) => {
                 return (
-                  <DayContent key={value} value={value} data={days[index]} tickets={tickets} dias_ad={dias_ad} />
+                  <DayContent key={value} value={value} data={days[index]} tickets={tickets} dias_ad={dias_ad} user={user.user} />
                 );
               })}
             </div>
@@ -40,7 +40,7 @@ export const Container = () => {
   }
 }
 
-const DayContent = ({ value, data, tickets, dias_ad }) => {
+const DayContent = ({ value, data, tickets, dias_ad, user }) => {
   if (!data || !tickets || !dias_ad) {
     return '';
   }
@@ -50,7 +50,7 @@ const DayContent = ({ value, data, tickets, dias_ad }) => {
   const [dataUs, setDataUs] = useState({
     cargarHoras: true,
     day: data.day,
-    user: 'ext.jmaldonado'
+    user: user
   });
 
   const handleChange = (e) => {
