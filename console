@@ -1,0 +1,79 @@
+<?php
+
+
+
+class Make  {
+
+    public function __construct()
+    {
+        $comand = self::validateArgs();
+
+        self::$comand();
+    }
+
+    public static function build() {
+        $data = json_decode(file_get_contents('config.build.json'), true);
+        foreach ($data as $id => $jsxName) {
+            self::createBuild($id, $jsxName);
+        }
+    }
+    
+    private static function createBuild($idName, $jsxfile)
+    {
+    
+        $moduleContent = '<html><head><title>Document</title></head><body><div id="' . $idName . '"></div><script type="module" src="./src/' . $jsxfile . '.jsx"></script></body></html>';
+        file_put_contents('index.html', $moduleContent);
+        exec('npm run build');
+        exec('del index.html');
+        $filesDist = scandir("./dist/assets");
+        # Renombramos los archivos
+        foreach($filesDist as $key => $file) {
+            if($file == '.' || $file == '..') continue;
+            
+            $extension = explode('.', $file);
+            $extension = $extension[count($extension)-1];
+            rename("./dist/assets/$file", "./dist/assets/$jsxfile.$extension");
+        }
+        self::folderCopy('./dist/assets/', "./assets/$jsxfile");
+    }
+    
+    //Crear nuevos directorios completos
+    private static function folderCopy($source, $target)
+    {
+        if (is_dir($source)) {
+            @mkdir($target);
+            $d = dir($source);
+            while (FALSE !== ($entry = $d->read())) {
+                if ($entry == '.' || $entry == '..') {
+                    continue;
+                }
+                $Entry = $source . '/' . $entry;
+                if (is_dir($Entry)) {
+                    self::folderCopy($Entry, $target . '/' . $entry);
+                    continue;
+                }
+                copy($Entry, $target . '/' . $entry);
+            }
+    
+            $d->close();
+        } else {
+            copy($source, $target);
+        }
+    }
+
+    private static function validateArgs(){
+        if(!isset($_SERVER['argv'][1])){
+            echo "Usa un comando.";
+            die;
+        }
+        $comand = explode('::', $_SERVER['argv'][1]);
+        if($comand[0] != 'Make'){
+            echo "Comando no reconocido";
+            die;
+        }
+
+        return $comand[1];
+    }
+}
+
+$Make = new Make();

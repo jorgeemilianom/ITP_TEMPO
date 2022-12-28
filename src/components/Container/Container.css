@@ -1,0 +1,37 @@
+.container {
+    margin: 20px ;
+}
+.GenerateDays{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 10px;
+}
+
+.DayContent {
+    background: #385786;
+    min-width: 95px;
+    min-height: 110px;
+    min-height: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    padding: 5px;
+    border-radius: 15px 0;
+}
+.DayContent > .primary_box {
+    width: 100%;
+}
+.DayContent > .primary_box > .horas {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.DayContent > .tickets {
+    display: flex;
+    flex-direction: column;
+    font-size: 12px;
+    width: 100%;
+}
