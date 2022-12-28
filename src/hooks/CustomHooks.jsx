@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 
 
-const URL_LOCAL = 'http://localhost/ITP_tempo/api/';
+const URL_LOCAL = 'http://itp.gesprender.com/api/';
 
 // Date functions
 
