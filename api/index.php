@@ -16,3 +16,6 @@ require_once './config/core.php';
 </body>
 
 </html>
+<?php
+
+session_destroy();
