@@ -7,13 +7,10 @@ import Swal from 'sweetalert2';
 import { localData } from './hooks/CustomHooks';
 
 function App() {
-  const dispatch = useDispatch();
   const [user, setUser] = useState(false);
-  useEffect(() => {
-    dispatch(getData());
-  }, []);
+  const dispatch = useDispatch();
 
-  if(!user){
+  if (!user) {
     Swal.fire({
       title: 'Ingresa usuario',
       input: 'text',
@@ -24,13 +21,14 @@ function App() {
       confirmButtonText: 'Cargar horas',
       showLoaderOnConfirm: true,
       preConfirm: (user) => {
-        return localData({user})
+        return localData({ user })
           .then(response => {
             if (!response.status) {
               throw new Error(response.message)
             }
-            
+
             setUser(true);
+            dispatch(getData());
           })
           .catch(error => {
             Swal.showValidationMessage(
@@ -41,7 +39,7 @@ function App() {
     })
   }
 
-  if(user){
+  if (user) {
     return <Container />
   }
 
