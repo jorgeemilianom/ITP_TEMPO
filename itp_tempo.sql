@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 28-12-2022 a las 18:14:46
+-- Tiempo de generación: 01-02-2023 a las 04:17:03
 -- Versión del servidor: 10.4.17-MariaDB
 -- Versión de PHP: 7.2.34
 
@@ -55,8 +55,37 @@ CREATE TABLE `us` (
 
 CREATE TABLE `users` (
   `id` int(255) NOT NULL,
-  `user` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `user` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `role_id` int(11) NOT NULL DEFAULT 1
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `users`
+--
+
+INSERT INTO `users` (`id`, `user`, `role_id`) VALUES
+(1, 'jorge', 2),
+(2, 'pepe', 1),
+(3, 'test', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `user_roles`
+--
+
+CREATE TABLE `user_roles` (
+  `id` int(255) NOT NULL,
+  `role` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `user_roles`
+--
+
+INSERT INTO `user_roles` (`id`, `role`) VALUES
+(1, 'Dev'),
+(2, 'TL');
 
 --
 -- Índices para tablas volcadas
@@ -83,6 +112,12 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `user_roles`
+--
+ALTER TABLE `user_roles`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -102,7 +137,13 @@ ALTER TABLE `us`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `user_roles`
+--
+ALTER TABLE `user_roles`
+  MODIFY `id` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas
