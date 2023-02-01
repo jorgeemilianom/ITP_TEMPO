@@ -10,7 +10,16 @@ import './Container.css';
 
 export const Container = () => {
   const DataList = useSelector(state => state.data);
-  const { days, tickets, dias_ad, total_horas, user } = DataList.data;
+  const { days, tickets, dias_ad, total_horas, user, role } = DataList.data;
+
+  const GenerateReport = () => {
+    if(role === 'TL'){
+      return(
+      <a className='btn btn-primary mx-4 p-0 px-1 d-flex align-items-center' target="_blank" href="./api/index.php?generatePDF=1" >Generar Reporte</a>
+      );
+    }
+    return <div></div>;
+  }
 
   if (days && tickets) {
     return (
@@ -18,8 +27,11 @@ export const Container = () => {
         <div className="row">
           <div className="col ">
             <div className="" style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <h2>Carga de horas</h2>
-              <h3>Total horas cargadas: {total_horas}</h3>
+              <h2>Carga de horas - [{role}]</h2>
+              <div className="d-flex">
+                <GenerateReport />
+                <h3>Total horas cargadas: {total_horas}</h3>
+              </div>
             </div>
             <div className="GenerateDays">
               {dias_ad.map((value) => {
