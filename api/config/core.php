@@ -62,6 +62,7 @@ class Core
             require("./src/Class/Logger.php");
             require("./src/Class/DependencyConstructor.php");
             require("./src/Class/Email.php");
+            require("./src/Class/PDF.php");
         } catch (Exception $e) {
             Logger::error('CORE', 'Error in loadIncludes -> ' . $e->getMessage());
         }

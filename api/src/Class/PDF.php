@@ -1,5 +1,5 @@
 <?php
-include_once('../library/pdf_generator/fpdf.php');
+include_once('./library/pdf_generator/fpdf.php');
 
 class PDF extends FPDF {
     // Funcion encargado de realizar el encabezado

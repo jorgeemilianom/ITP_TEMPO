@@ -15,6 +15,9 @@ class RequestController
             Request::getLocal('user', function () {
                 DataController::setUser();
             });
+            Request::getLocal('generatePDF', function () {
+                DataController::generarReporte();
+            });
 
 
         } catch (Exception $e) {
