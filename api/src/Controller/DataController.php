@@ -208,10 +208,10 @@ class DataController
             $pdf->AliasNbPages();
             $pdf->SetFont('Arial', 'B', 8);
             foreach ($Users as $User) {
-
+                $horasTotales = 0;
                 $idUser = $User['id'];
                 $Hours = DB::query("SELECT * FROM hours WHERE id_user = $idUser AND MONTH(date_us) = $mesActual AND year(date_us) = $year", 1);
-
+                
                 # Header
                 $pdf->Cell(100, 10, $User['user'], 1);
                 $pdf->Ln();
@@ -233,7 +233,9 @@ class DataController
                     $id_us = $hour['id_us'];
                     $day = $hour['day'];
                     $HoursOrderByUS[$id_us][$day] = $hour;
+                    $horasTotales += $hour['hs']; 
                 }
+                //var_dump($horasTotales);
                 $HoursOrderByHS = [];
                 foreach ($HoursOrderByUS as $id_us => $hour) {
                     for ($i = 1; $i <= $daysAvaible; $i++) {
@@ -266,7 +268,7 @@ class DataController
                     }
                     $pdf->Ln();
                 }
-
+                $pdf->Cell(50, 10, 'Total de horas mensuales: '.$horasTotales, 1);
                 $pdf->Ln();
                 $pdf->AddPage();
             }
