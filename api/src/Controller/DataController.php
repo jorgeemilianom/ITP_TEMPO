@@ -218,7 +218,7 @@ class DataController
                 # Fechas
                 $daysAvaible = date("t");   // Cantidad de dias disponibles este mes
                 # Primer fila
-                $pdf->Cell(50, 10, 'Us_id', 1);
+                $pdf->Cell(50, 10, 'Dias', 1);
                 for ($i = 1; $i <= $daysAvaible; $i++) {  // Creamos arreglo con tamaño de $daysAvaible
                     $name_day = self::nombreDia(date("N", mktime(0, 0, 0, $mesActual, $i, $year)));
                     if ($name_day == 'Sabado' || $name_day == 'Domingo') {
@@ -255,6 +255,8 @@ class DataController
                     $name_us = DB::get(['name'], 'us', ['id' => $id_us]);
                     $name_us = reset($name_us);
                     $name_us = $name_us['name'];
+                    $name_us = explode(' ', $name_us);
+                    $name_us = $name_us[0];
 
                     $pdf->Cell(50, 10, $name_us, 1);
                     # Recorremos las horas 

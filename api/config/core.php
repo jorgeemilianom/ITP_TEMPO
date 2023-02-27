@@ -30,12 +30,10 @@ class Core
             #   Precargamos todos los alias primero por si precisamos alguna función en algun proceso core.
             include("alias.php");
 
-
             #   [Configuración general]
             #   Enlazamos todos los modulos requeridos
             include("./src/Security/session_validate.php");
             include("./src/Security/validations.php");
-            include("./src/Security/Permissions.php");
 
             #   [Servicios]
             #   Cargamos todos los servicios antes que los repositorys
@@ -46,7 +44,6 @@ class Core
             #   [Entitys]
             #   Enlazamos todas las entidades
             require("./src/Entitys/User.php");
-            require("./src/Entitys/Adm.php");
 
             #   [Controllers]
             #   Enlazamos todos los controladores

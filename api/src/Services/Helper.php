@@ -1,31 +1,6 @@
 <?php
 
 class Helper {
-    /**
-     * @param string $message Message to display
-     */
-    public static function success(string $message, bool $toast = false): string {
-        return "<script>success('$message', '$toast')</script>";
-    }
-    
-    public static function error($x) : string {
-        return "<script>error('$x')</script>";
-    }
-
-    public static function warning($x) : string {
-        return "<script>warning('$x')</script>";
-    }
-
-    public static function console($x) : void {
-        echo "<script>console.log('$x')</script>";
-    }
-
-    public static function alert($msj, $redirect) : void {
-        $redirect = '<br>
-        <a href="'.$redirect.'">Click Aqui.</a>
-        ';
-        $_SESSION['alert'] = $msj . $redirect;
-    }
 
     public static function character_invalid(string $string){
         $array_characters_invalid = ['/', "'", '"', '\\'];
