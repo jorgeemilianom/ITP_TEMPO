@@ -26,7 +26,7 @@ export const Container = () => {
       <div className=" m-3 ">
         <div className="row">
           <div className="col ">
-            <div className="" style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div className="mb-3" style={{ display: 'flex', justifyContent: 'space-between' }}>
               <h2>Carga de horas - [{role}]</h2>
               <div className="d-flex">
                 <GenerateReport />
