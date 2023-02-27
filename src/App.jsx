@@ -10,7 +10,7 @@ function App() {
   const [user, setUser] = useState(false);
   const dispatch = useDispatch();
 
-  if (!user) {
+  if (!user ) {
     Swal.fire({
       title: 'Ingresa usuario',
       input: 'text',

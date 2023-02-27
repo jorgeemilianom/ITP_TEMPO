@@ -9,7 +9,7 @@ define('PROTOCOLE_SECURE', false);
 define('CONFIG', 'config_local.php');
 define('PROTOCOLE', PROTOCOLE_SECURE ? 'https://': 'http://');
 define('HOST_REACT', 'http://localhost:5173');
-define('DEBUG_MODE', true);    // Poner en true para usar las dependencias desde Dist
+define('DEBUG_MODE', false);    // Poner en true para usar las dependencias desde Dist
 
 # URL PATHS
 if(PROD){

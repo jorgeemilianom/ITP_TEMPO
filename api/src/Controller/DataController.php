@@ -137,6 +137,7 @@ class DataController
                 $i = $hour['day'];
                 $id_us = $hour['id_us'];
                 $dataUs = DB::findById('us', $id_us);
+                $dataUs['id_hour'] = $hour['id'];
                 $arrayDataDays[$i]['tickets'][] = $dataUs;
                 $arrayDataDays[$i]['hours'] += $hour['hs'];
                 $total_horas += $hour['hs'];
@@ -275,5 +276,18 @@ class DataController
         } catch (Exception $e) {
             Logger::error('DataController', 'Error in generate_pdf -> ' . $e->getMessage());
         }
+    }
+
+
+    public static function removeHsUser()
+    {
+        $id = $_POST['remove_hs_id'];
+        DB::deleteById('hours', $id);
+
+        Response::json([
+            'status'=> true,
+            'message'=> 'Hora eliminada!',
+            'data' => []
+        ], 200);
     }
 }
