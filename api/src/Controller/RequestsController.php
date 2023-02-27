@@ -18,6 +18,9 @@ class RequestController
             Request::getLocal('generatePDF', function () {
                 DataController::generarReporte();
             });
+            Request::getLocal('removeHsUser', function () {
+                DataController::removeHsUser();
+            });
 
 
         } catch (Exception $e) {

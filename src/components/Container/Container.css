@@ -1,3 +1,8 @@
+.d-flex-sb {
+    display: flex;
+    justify-content: space-between;
+}
+
 .container {
     margin: 20px ;
 }
@@ -19,6 +24,10 @@
     padding: 5px;
     border-radius: 15px 0;
 }
+.dailyComponentHead {
+    display: flex;
+    justify-content: space-between;
+}
 .DayContent > .primary_box {
     width: 100%;
 }
@@ -34,4 +43,10 @@
     flex-direction: column;
     font-size: 12px;
     width: 100%;
+}
+.content_remove_us {
+    display: none;
+}
+.us_element:hover > .content_remove_us {
+    display: flex;
 }
