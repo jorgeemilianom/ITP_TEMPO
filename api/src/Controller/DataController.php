@@ -201,7 +201,8 @@ class DataController
     private static function generate_pdf($Users)
     {
         try {
-            $mesActual = date("m");
+            setlocale(LC_TIME, 'es_ES.UTF-8');
+            $mesActual = $_GET['mes']??date("m");
             $year = date("Y");
             # PDF y configuración base
             $pdf = new PDF('l');
@@ -214,7 +215,9 @@ class DataController
                 $Hours = DB::query("SELECT * FROM hours WHERE id_user = $idUser AND MONTH(date_us) = $mesActual AND year(date_us) = $year", 1);
                 
                 # Header
-                $pdf->Cell(100, 10, $User['user'], 1);
+                $pdf->Cell(100, 10, 'Reporte del mes de ' . ucfirst(strftime('%B', strtotime("01-$mesActual-$year"))), 1);
+                $pdf->Ln();
+                $pdf->Cell(100, 10, 'Usuario: '. ucfirst($User['user']), 1);
                 $pdf->Ln();
                 # Fechas
                 $daysAvaible = date("t");   // Cantidad de dias disponibles este mes
