@@ -11,50 +11,64 @@ import './Container.css';
 
 
 export const Container = () => {
-  const DataList = useSelector(state => state.data);
-  const { days, tickets, dias_ad, total_horas, user, role, hours } = DataList.data;
+  try {
+    const DataList = useSelector(state => state.data);
+    const { days, tickets, dias_ad, total_horas, user, role, hours, mes } = DataList.data;
 
-  const GenerateReport = () => {
-    if (role === 'TL') {
-      return (
-        <a className='btn btn-primary mx-4 p-0 px-1 d-flex align-items-center' target="_blank" href="./api/index.php?generatePDF=1" >Generar Reporte</a>
-      );
+    const GenerateReport = () => {
+      if (role === 'TL') {
+        return (
+          <a className='btn btn-primary mx-4 p-0 px-1 d-flex align-items-center' target="_blank" href="./api/index.php?generatePDF=1" >Generar Reporte</a>
+        );
+      }
+      return <div></div>;
     }
-    return <div></div>;
-  }
 
-  if (days && tickets) {
-    return (
-      <div className=" m-3 ">
-        <div className="row">
-          <div className="col ">
-            <div className="mb-3" style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <h2>Carga de horas - [{role}]</h2>
-              <div className="d-flex">
-                <GenerateReport />
-                <h3>Total horas cargadas: {total_horas}</h3>
+    if (days && tickets) {
+      return (
+        <div className=" m-3 ">
+          <div className="row">
+            <div className="col ">
+              <div className="mb-3" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <h2>{mes.toUpperCase()} - [{role}] - {user.user}</h2>
+                <div className="d-flex">
+                  <GenerateReport />
+                  <h3>Total horas cargadas: {total_horas}</h3>
+                </div>
               </div>
-            </div>
-            <div className="GenerateDays">
-              {dias_ad.map((value) => {
-                return (
-                  <div className="" key={value}></div>
-                );
-              })}
-              {Object.keys(days).map((value, index) => {
-                return (
-                  <DayContent key={value} value={value} data={days[index]} tickets={tickets} dias_ad={dias_ad} user={user.user} />
-                );
-              })}
+              <div className="GenerateDays">
+                {dias_ad.map((value) => {
+                  return (
+                    <div className="" key={value}></div>
+                  );
+                })}
+                {Object.keys(days).map((value, index) => {
+                  return (
+                    <DayContent
+                      key={value}
+                      value={value}
+                      data={days[index]}
+                      tickets={tickets}
+                      dias_ad={dias_ad}
+                      user={user.user}
+                      mes={mes}
+                    />
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return (<div className="">Error interno, notificarlo.</div>)
+    }
+  } catch (error) {
+    console.log(error);
   }
 }
 
-const DayContent = ({ value, data, tickets, dias_ad, user }) => {
+const DayContent = ({ value, data, tickets, dias_ad, user, mes }) => {
   if (!data || !tickets || !dias_ad) {
     return '';
   }
@@ -136,7 +150,7 @@ const DayContent = ({ value, data, tickets, dias_ad, user }) => {
       </div>
       <div className="offcanvas offcanvas-end" tabIndex="-1" id={"offcanvasRight" + value} aria-labelledby={"offcanvasRightLabel" + value}>
         <div className="offcanvas-header text-dark">
-          <h5 id="offcanvasRightLabel">Carga horas día {data.day}</h5>
+          <h5 id="offcanvasRightLabel">Cargar horas del día {data.day} de {mes}</h5>
           <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div className="offcanvas-body text-dark">
@@ -144,7 +158,12 @@ const DayContent = ({ value, data, tickets, dias_ad, user }) => {
             <div className="input-group mb-3">
               <input list='US' className="form-control" name="ticket" placeholder="TICBC-1234" autoComplete="OFF" onChange={handleChange} />
               <datalist id="US">
-                {tickets.map((ticket) => (<option value={ticket.name} key={'datalis_' + ticket.name} ></option>))}
+                {tickets.map((ticket, i) => {
+                  
+                  return (
+                    <option value={ticket?.name} key={'datalis_' + ticket?.name + ticket?.id} ></option>
+                  )
+                })}
               </datalist>
             </div>
 
