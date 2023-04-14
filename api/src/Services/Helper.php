@@ -1,24 +1,27 @@
 <?php
 
-class Helper {
+class Helper
+{
 
-    public static function character_invalid(string $string){
+    public static function character_invalid(string $string)
+    {
         $array_characters_invalid = ['/', "'", '"', '\\'];
-        for($i = 0; $i < strlen($string); $i++){
-            if(in_array($string[$i], $array_characters_invalid)){
+        for ($i = 0; $i < strlen($string); $i++) {
+            if (in_array($string[$i], $array_characters_invalid)) {
                 return true;
             }
         }
         false;
     }
 
-    public static function validate_input(array $input){
+    public static function validate_input(array $input)
+    {
 
-        foreach($input as $x){
+        foreach ($input as $x) {
             $value = $x;
-            $permitidos = 'aábcdeéfghiíjklmnoópqrstuúvwxyzAÁBCDEÉFGHIÍJKLMNOÓPQRSTUÚVWXYZ0123456789/@-_. $!¿?¡#%&()=|°:;'; 
-            for ($i=0; $i<strlen($value); $i++){ 
-                if (strpos($permitidos, substr($value,$i,1))===false){
+            $permitidos = 'aábcdeéfghiíjklmnoópqrstuúvwxyzAÁBCDEÉFGHIÍJKLMNOÓPQRSTUÚVWXYZ0123456789/@-_. $!¿?¡#%&()=|°:;';
+            for ($i = 0; $i < strlen($value); $i++) {
+                if (strpos($permitidos, substr($value, $i, 1)) === false) {
                     return false;
                 }
             }
@@ -27,20 +30,22 @@ class Helper {
         return true;
     }
 
-    public static function validate_input_only_letters_characters(array $input){
-        foreach($input as $x){
+    public static function validate_input_only_letters_characters(array $input)
+    {
+        foreach ($input as $x) {
             $value = $x;
-            $permitidos = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 '; 
-            for ($i=0; $i<strlen($value); $i++){ 
-                if (strpos($permitidos, substr($value,$i,1))===false){
+            $permitidos = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890 ';
+            for ($i = 0; $i < strlen($value); $i++) {
+                if (strpos($permitidos, substr($value, $i, 1)) === false) {
                     return false;
                 }
             }
-            return true; 
+            return true;
         }
     }
 
-    public static function Fsize($dir){
+    public static function Fsize($dir)
+    {
         clearstatcache();
         $cont = 0;
         if (is_dir($dir)) {
@@ -61,51 +66,124 @@ class Helper {
         return self::formatBytes($cont);
     }
 
-    public static function formatBytes($size, $precision = 2){
+    public static function formatBytes($size, $precision = 2)
+    {
         $base = log($size, 1024);
-        $suffixes = array('', 'KB', 'MB', 'GB', 'TB');   
-    
-        return is_nan((float)round(pow(1024, $base - floor($base)), $precision)) ? '0' : round(pow(1024, $base - floor($base)), $precision) .' '. $suffixes[floor($base)];
+        $suffixes = array('', 'KB', 'MB', 'GB', 'TB');
+
+        return is_nan((float)round(pow(1024, $base - floor($base)), $precision)) ? '0' : round(pow(1024, $base - floor($base)), $precision) . ' ' . $suffixes[floor($base)];
     }
 
-    public static function list_files($directorio){
+    public static function list_files($directorio)
+    {
         $list_files = scandir($directorio);
         return count($list_files) - 2;
     }
 
-    public static function all_unset(array &$values){
-        if(count($values) > 0){
-            foreach($values as $key => $value){
+    public static function all_unset(array &$values)
+    {
+        if (count($values) > 0) {
+            foreach ($values as $key => $value) {
                 unset($values[$key]);
             }
         }
     }
 
-    public static function JsonResponse(array $response){
-        echo json_encode($response); die;
+    public static function JsonResponse(array $response)
+    {
+        echo json_encode($response);
+        die;
     }
 
-    public static function clearSpecialsCharacters( string $character ) : string {
-		$character = str_replace("[áàâãªä@]","a",$character);
-		$character = str_replace("[ÁÀÂÃÄ]","A",$character);
-		$character = str_replace("[éèêë]","e",$character);
-		$character = str_replace("[ÉÈÊË]","E",$character);
-		$character = str_replace("[íìîï]","i",$character);
-		$character = str_replace("[ÍÌÎÏ]","I",$character);
-		$character = str_replace("[óòôõºö]","o",$character);
-		$character = str_replace("[ÓÒÔÕÖ]","O",$character);
-		$character = str_replace("[úùûü]","u",$character);
-		$character = str_replace("[ÚÙÛÜ]","U",$character);
-		$character = str_replace("[,;.:]","",$character);
-		$character = str_replace("['\"]","",$character);
-		$character = str_replace("[?¿]","",$character);
-		$character = str_replace("[)(]","",$character);
-		$character = str_replace("[\[\]]","",$character);
-		$character = str_replace("[<>]","",$character);
-		$character = str_replace("[-_]","",$character);
-		$character = str_replace("[!¡]","",$character);
-		$character = str_replace("[{}]","",$character);
-		$character = str_replace("[%#$&/|°¬]","",$character);
-		return $character;
-	}
+    public static function clearSpecialsCharacters(string $character): string
+    {
+        $character = str_replace("[áàâãªä@]", "a", $character);
+        $character = str_replace("[ÁÀÂÃÄ]", "A", $character);
+        $character = str_replace("[éèêë]", "e", $character);
+        $character = str_replace("[ÉÈÊË]", "E", $character);
+        $character = str_replace("[íìîï]", "i", $character);
+        $character = str_replace("[ÍÌÎÏ]", "I", $character);
+        $character = str_replace("[óòôõºö]", "o", $character);
+        $character = str_replace("[ÓÒÔÕÖ]", "O", $character);
+        $character = str_replace("[úùûü]", "u", $character);
+        $character = str_replace("[ÚÙÛÜ]", "U", $character);
+        $character = str_replace("[,;.:]", "", $character);
+        $character = str_replace("['\"]", "", $character);
+        $character = str_replace("[?¿]", "", $character);
+        $character = str_replace("[)(]", "", $character);
+        $character = str_replace("[\[\]]", "", $character);
+        $character = str_replace("[<>]", "", $character);
+        $character = str_replace("[-_]", "", $character);
+        $character = str_replace("[!¡]", "", $character);
+        $character = str_replace("[{}]", "", $character);
+        $character = str_replace("[%#$&/|°¬]", "", $character);
+        return $character;
+    }
+
+    public static function getMonthName($mes)
+    {
+        switch ($mes) {
+            case '01':
+                return 'Enero';
+                break;
+            case '02':
+                return 'Febrero';
+                break;
+            case '03':
+                return 'Marzo';
+                break;
+            case '04':
+                return 'Abril';
+                break;
+            case '05':
+                return 'Mayo';
+                break;
+            case '06':
+                return 'Junio';
+                break;
+            case '07':
+                return 'Julio';
+                break;
+            case '08':
+                return 'Agosto';
+                break;
+            case '09':
+                return 'Septiembre';
+                break;
+            case '10':
+                return 'Octubre';
+                break;
+            case '11':
+                return 'Noviembre';
+                break;
+            case '12':
+                return 'Disciembre';
+                break;
+            default:
+                return false;
+                break;
+        }
+    }
+
+    public static function nombreDia($num)
+    {
+        switch ($num) {
+            case 1:
+                return 'Lunes';
+            case 2:
+                return 'Martes';
+            case 3:
+                return 'Miercoles';
+            case 4:
+                return 'Jueves';
+            case 5:
+                return 'Viernes';
+            case 6:
+                return 'Sabado';
+            case 7:
+                return 'Domingo';
+            default:
+                return false;
+        }
+    }
 }

@@ -9,38 +9,6 @@ class DataController
 
     }
 
-    public static function setUser()
-    {
-        try {
-            $username = $_REQUEST['user'];
-            $dataUser = DB::get(['*'], 'users', ['user' => $username]);
-            if (!$dataUser) {
-                Response::json([
-                    'status' => false,
-                    'message' => 'Usuario no registrado',
-                    'data' => [$dataUser]
-                ], 400);
-            }
-            $dataUser = reset($dataUser);
-
-            $_SESSION['User'] = [
-                'id' => $dataUser['id'],
-                'name' => $dataUser['user']
-            ];
-            Response::json([
-                'status' => true,
-                'message' => 'Usuario cargado',
-                'data' => $dataUser
-            ], 200);
-        } catch (Exception $e) {
-            Response::json([
-                'status' => false,
-                'message' => 'Error en el servidor',
-                'data' => []
-            ], 500);
-        }
-    }
-
     public static function cargarHoras()
     {
         try {
@@ -116,11 +84,11 @@ class DataController
             $arrayDataDays = [];
             $dias_adicionales = [];
             for ($i = 1; $i <= $daysAvaible; $i++) {  // Creamos arreglo con tamaño de $daysAvaible
-                $name_day = self::nombreDia(date("N", mktime(0, 0, 0, $mesActual, $i, $year)));
+                $name_day = Helper::nombreDia(date("N", mktime(0, 0, 0, $mesActual, $i, $year)));
                 if ($i == 1) {
                     $dias_ad = date("N", mktime(0, 0, 0, $mesActual, $i, $year));
                     for ($j = $dias_ad; $j > 0; $j--) {
-                        $dias_adicionales[] = self::nombreDia($j);
+                        $dias_adicionales[] = Helper::nombreDia($j);
                     }
                 }
                 $arrayDataDays[$i] = [
@@ -132,28 +100,35 @@ class DataController
             }
 
             $total_horas = 0;
-
             foreach ($dataHours as $hour) {
                 $i = $hour['day'];
                 $id_us = $hour['id_us'];
                 $dataUs = DB::findById('us', $id_us);
                 $dataUs['id_hour'] = $hour['id'];
                 $arrayDataDays[$i]['tickets'][] = $dataUs;
-                $arrayDataDays[$i]['hours'] += $hour['hs'];
-                $total_horas += $hour['hs'];
+                $arrayDataDays[$i]['hours'] += (int)$hour['hs'];
+                $total_horas += (int)$hour['hs'];
+            }
+
+            # Agree The name of the tickets to respect the format "ICTBC-XXXX"
+            $dataTickets = $dataTickets ?: [];
+            foreach ($dataTickets as &$ticket) {
+                $ticket['name'] = explode(' ', $ticket['name']);
+                $ticket['name'] = $ticket['name'][0];
             }
 
             Response::json([
                 'status' => true,
                 'message' => 'global data',
                 'data' => [
-                    'tickets' => $dataTickets ? $dataTickets : [],
+                    'tickets' => $dataTickets,
                     'user' => $dataUser,
                     'hours' => $dataHours ? $dataHours : 0,
                     'days' => $arrayDataDays,
                     'dias_ad' => array_reverse($dias_adicionales),
                     'total_horas' => $total_horas,
-                    'role' => $dataUser['role_id'] == 2 ? 'TL' : 'Dev'
+                    'role' => $dataUser['role_id'] == 2 ? 'TL' : 'Dev',
+                    'mes' => Helper::getMonthName($mesActual)
                 ]
             ], 200);
         } catch (Exception $e) {
@@ -162,28 +137,6 @@ class DataController
                 'message' => 'Error en el servidor',
                 'data' => []
             ], 500);
-        }
-    }
-
-    public static function nombreDia($num)
-    {
-        switch ($num) {
-            case 1:
-                return 'Lunes';
-            case 2:
-                return 'Martes';
-            case 3:
-                return 'Miercoles';
-            case 4:
-                return 'Jueves';
-            case 5:
-                return 'Viernes';
-            case 6:
-                return 'Sabado';
-            case 7:
-                return 'Domingo';
-            default:
-                return false;
         }
     }
 
@@ -224,7 +177,7 @@ class DataController
                 # Primer fila
                 $pdf->Cell(50, 10, 'Dias', 1);
                 for ($i = 1; $i <= $daysAvaible; $i++) {  // Creamos arreglo con tamaño de $daysAvaible
-                    $name_day = self::nombreDia(date("N", mktime(0, 0, 0, $mesActual, $i, $year)));
+                    $name_day = Helper::nombreDia(date("N", mktime(0, 0, 0, $mesActual, $i, $year)));
                     if ($name_day == 'Sabado' || $name_day == 'Domingo') {
                         continue;
                     }
@@ -243,7 +196,7 @@ class DataController
                 $HoursOrderByHS = [];
                 foreach ($HoursOrderByUS as $id_us => $hour) {
                     for ($i = 1; $i <= $daysAvaible; $i++) {
-                        $name_day = self::nombreDia(date("N", mktime(0, 0, 0, $mesActual, $i, $year)));
+                        $name_day = Helper::nombreDia(date("N", mktime(0, 0, 0, $mesActual, $i, $year)));
                         if ($name_day == 'Sabado' || $name_day == 'Domingo') {
                             continue;
                         }
