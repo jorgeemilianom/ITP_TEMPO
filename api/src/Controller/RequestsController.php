@@ -13,7 +13,7 @@ class RequestController
                 DataController::getData();
             });
             Request::getLocal('user', function () {
-                DataController::setUser();
+                User::setUser();
             });
             Request::getLocal('generatePDF', function () {
                 DataController::generarReporte();
