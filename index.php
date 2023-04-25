@@ -24,6 +24,18 @@
   <?php if (!PROD && !DEBUG_MODE) : ?>
     <script type="module" src="<?= HOST_REACT ?>/src/main.jsx"></script>
   <?php endif; ?>
+  <footer style='height: 50px;
+    display: flex;
+    background: #2d2d2d;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    font-size: 11px;'>
+  ITP Tempo | Version <?= VERSION ?>
+  </footer>
 </body>
 
 </html>

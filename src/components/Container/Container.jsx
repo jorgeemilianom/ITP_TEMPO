@@ -17,8 +17,31 @@ export const Container = () => {
 
     const GenerateReport = () => {
       if (role === 'TL') {
+
+        // Obtén el mes actual
+        const currentMonth = new Date().getMonth() + 1;
+
+        // Genera un array de meses desde enero hasta el mes actual
+        const months = Array.from({ length: currentMonth }, (_, i) => i + 1);
+
         return (
-          <a className='btn btn-primary mx-4 p-0 px-1 d-flex align-items-center' target="_blank" href="./api/index.php?generatePDF=1" >Generar Reporte</a>
+          <Fragment>
+            <div class="dropdown">
+              <a class="btn btn-primary mx-4 p-2 px-1 d-flex align-items-center dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                Generar Reporte
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                {/* Renderiza un elemento <li> por cada mes en el array */}
+                {months.map(month => (
+                  <li key={month}>
+                    <a className="dropdown-item" target="_blank" href={`./api/index.php?generatePDF=1&mes=${month}`}>
+                      {new Date(0, month - 1).toLocaleString('default', { month: 'long' })}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Fragment>
         );
       }
       return <div></div>;
@@ -159,7 +182,7 @@ const DayContent = ({ value, data, tickets, dias_ad, user, mes }) => {
               <input list='US' className="form-control" name="ticket" placeholder="TICBC-1234" autoComplete="OFF" onChange={handleChange} />
               <datalist id="US">
                 {tickets.map((ticket, i) => {
-                  
+
                   return (
                     <option value={ticket?.name} key={'datalis_' + ticket?.name + ticket?.id} ></option>
                   )
