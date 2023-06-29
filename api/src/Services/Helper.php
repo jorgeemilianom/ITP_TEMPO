@@ -125,43 +125,30 @@ class Helper
         switch ($mes) {
             case '01':
                 return 'Enero';
-                break;
             case '02':
                 return 'Febrero';
-                break;
             case '03':
                 return 'Marzo';
-                break;
             case '04':
                 return 'Abril';
-                break;
             case '05':
                 return 'Mayo';
-                break;
             case '06':
                 return 'Junio';
-                break;
             case '07':
                 return 'Julio';
-                break;
             case '08':
                 return 'Agosto';
-                break;
             case '09':
                 return 'Septiembre';
-                break;
             case '10':
                 return 'Octubre';
-                break;
             case '11':
                 return 'Noviembre';
-                break;
             case '12':
                 return 'Disciembre';
-                break;
             default:
                 return false;
-                break;
         }
     }
 
@@ -185,5 +172,23 @@ class Helper
             default:
                 return false;
         }
+    }
+
+    public static function letterWithNumber($let)
+    {
+        $letters = "ABCDEFGHIJKLMNOPQRSTUVWHYZ";
+        $lettersMin = "abcdefghijklmnopqrstuvwxyz";
+        $n = 0;
+        for ($i = 0; $i < strlen($let); $i++) {
+            if ($i + 1 < strlen($let)) {
+                $n += 25;
+            }
+            for ($x = 0; $x < strlen($letters); $x++) {
+                if ($let[$i] == $letters[$x] || $let[$i] == $lettersMin[$x]) {
+                    $n += $x + 1;
+                }
+            }
+        }
+        return $n;
     }
 }

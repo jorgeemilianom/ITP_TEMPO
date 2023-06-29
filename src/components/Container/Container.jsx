@@ -27,14 +27,29 @@ export const Container = () => {
         return (
           <Fragment>
             <div class="dropdown">
-              <a class="btn btn-primary mx-4 p-2 px-1 d-flex align-items-center dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                Generar Reporte
+              <a class="btn btn-primary mx-2 p-2 px-1 d-flex align-items-center dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                Reporte PDF
               </a>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                 {/* Renderiza un elemento <li> por cada mes en el array */}
                 {months.map(month => (
                   <li key={month}>
                     <a className="dropdown-item" target="_blank" href={`./api/index.php?generatePDF=1&mes=${month}`}>
+                      {new Date(0, month - 1).toLocaleString('default', { month: 'long' })}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div class="dropdown">
+              <a class="btn btn-primary mx-2 p-2 px-1 d-flex align-items-center dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                Reporte XLSX
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                {/* Renderiza un elemento <li> por cada mes en el array */}
+                {months.map(month => (
+                  <li key={month}>
+                    <a className="dropdown-item" target="_blank" href={`./api/index.php?generateXLS=1&mes=${month}`}>
                       {new Date(0, month - 1).toLocaleString('default', { month: 'long' })}
                     </a>
                   </li>
@@ -177,6 +192,9 @@ const DayContent = ({ value, data, tickets, dias_ad, user, mes }) => {
           <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div className="offcanvas-body text-dark">
+          <div className="alert alert-danger py-0 my-2" role="alert" style={{ fontSize: '12px' }}>
+            Por favor, si ya existe el ticket que deseas cargar, no crees uno nuevo (o uno similar con una coma, espacio o letra demás).<br /> El formato es <b>TICBC-XXXX</b>
+          </div>
           <form onSubmit={sendData}>
             <div className="input-group mb-3">
               <input list='US' className="form-control" name="ticket" placeholder="TICBC-1234" autoComplete="OFF" onChange={handleChange} />
@@ -188,6 +206,9 @@ const DayContent = ({ value, data, tickets, dias_ad, user, mes }) => {
                   )
                 })}
               </datalist>
+              <div className="alert alert-warning py-0 my-2" role="alert" style={{ fontSize: '12px' }}>
+                Al teclear te sugiere el ticket. Si no está cargado, lo creará y la proxima vez te lo sugerirá.
+              </div>
             </div>
 
             <div className="input-group mb-3">
@@ -198,19 +219,25 @@ const DayContent = ({ value, data, tickets, dias_ad, user, mes }) => {
               <button className="btn btn-primary">Cargar</button>
             </div>
           </form>
-          <div className="alert alert-primary" role="alert">
+          <div className="alert alert-primary py-0 my-1" role="alert">
+            INT-4: Feriados
+          </div>
+          <div className="alert alert-primary py-0 my-1" role="alert">
             INT-5: Gestion ICBC
           </div>
-          <div className="alert alert-primary" role="alert">
+          <div className="alert alert-primary py-0 my-1" role="alert">
             INT-6: Reuniones generales
           </div>
-          <div className="alert alert-primary" role="alert">
+          <div className="alert alert-primary py-0 my-1" role="alert">
             INT-7: Capacitaciones
           </div>
-          <div className="alert alert-primary" role="alert">
+          <div className="alert alert-primary py-0 my-1" role="alert">
             INT-8: Ausentismo
           </div>
-          <div className="alert alert-primary" role="alert">
+          <div className="alert alert-primary py-0 my-1" role="alert">
+            INT-9: Gestion QA
+          </div>
+          <div className="alert alert-primary py-0 my-1" role="alert">
             INT-34: Cumpleaños
           </div>
         </div>

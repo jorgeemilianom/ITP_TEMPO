@@ -13,14 +13,11 @@ class DB
             switch ($typeFetch) {
                 case 'fetch_array':
                     return $response ? $response->fetch_array(MYSQLI_ASSOC) : false;
-                    break;
                 case 'fetch_assoc':
                     return $response ? $response->fetch_assoc() : false;
-                    break;
                 default:
                 case 'fetch_all':
                     return $response ? $response->fetch_all(MYSQLI_ASSOC) : false;
-                    break;
             }
         }
         return $response;
