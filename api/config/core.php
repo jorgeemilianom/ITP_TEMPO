@@ -1,7 +1,4 @@
 <?php
-
-require 'define.inc.php';
-
 class Core
 {
 
@@ -9,6 +6,10 @@ class Core
     {
         try {
             session_start();
+
+            # We load the environment values
+            $this->loadEnv();
+            
             # Incluimos todas las dependencias que ocupa la plataforma
             $this->loadIncludes();
             
@@ -25,15 +26,17 @@ class Core
     private function loadIncludes()
     {
         try {
-            require_once CONFIG;
             #   [Alias]
             #   Precargamos todos los alias primero por si precisamos alguna función en algun proceso core.
             include("alias.php");
 
-            #   [Configuración general]
-            #   Enlazamos todos los modulos requeridos
-            include("./src/Security/session_validate.php");
-            include("./src/Security/validations.php");
+            #   [DB Config]
+            #   Cargamos todas las constantes personalizadas para la plataforma 
+            require_once 'config_local.php';
+
+            #   [Config]
+            #   Cargamos todas las constantes personalizadas para la plataforma 
+            require_once 'defines.php';
 
             #   [Servicios]
             #   Cargamos todos los servicios antes que los repositorys
@@ -55,13 +58,23 @@ class Core
             #   [Class]
             #   Enlazamos todas las classes globales
             require("./src/Class/DB.php");
-            require("./src/Class/Upload.php");
             require("./src/Class/Logger.php");
             require("./src/Class/DependencyConstructor.php");
-            require("./src/Class/Email.php");
             require("./src/Class/PDF.php");
         } catch (Exception $e) {
-            Logger::error('CORE', 'Error in loadIncludes -> ' . $e->getMessage());
+            
+        }
+    }
+
+    private function loadEnv()
+    {
+        try {
+            require_once("./vendor/autoload.php");
+            $dotenv = Dotenv\Dotenv::createImmutable('./../');
+            $dotenv->load();
+        } catch (Exception $e) {
+            // require_once './src/Class/Logger.php';
+            // Logger::error('CORE', 'Error in loadEnv -> ' . $e->getMessage());
         }
     }
 }

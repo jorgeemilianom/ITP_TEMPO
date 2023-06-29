@@ -1,14 +1,8 @@
 <?php
 /*======================================================
-|   [Zona horaria]
-|   Definimos zona horaria ARGENTINA
-======================================================*/
-date_default_timezone_set('America/Argentina/Buenos_Aires');
-
-/*======================================================
 |   [Connect SQL]
 ======================================================*/   
-$connection = new mysqli('localhost', 'root', '', 'itp_tempo');
+$connection = new mysqli('localhost', 'root', '', 'u122207942_itp_tempo');
 $_SESSION['connection'] = $connection;
 if($connection->connect_error){
      // var_dump ($connection); die;

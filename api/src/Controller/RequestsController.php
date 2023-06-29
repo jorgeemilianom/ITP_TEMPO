@@ -15,17 +15,19 @@ class RequestController
             Request::getLocal('user', function () {
                 User::setUser();
             });
-            Request::getLocal('generatePDF', function () {
-                DataController::generarReporte();
-            });
             Request::getLocal('removeHsUser', function () {
                 DataController::removeHsUser();
             });
-
+            # Data report
+            Request::getLocal('generatePDF', function () {
+                DataController::generarReporte();
+            });
+            Request::getLocal('generateXLS', function () {
+                DataController::generateXLS();
+            });
 
         } catch (Exception $e) {
 
         }
-
     }
 }
