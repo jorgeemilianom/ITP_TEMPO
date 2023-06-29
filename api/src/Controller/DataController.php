@@ -351,7 +351,7 @@ class DataController
                     $id_us = $hour['id_us'];
                     $day = $hour['day'];
                     $HoursOrderByUS[$id_us][$day] = $hour;
-                    $horasTotales += $hour['hs'];
+                    $horasTotales += (int)$hour['hs'];
                 }
 
                 $HoursOrderByHS = [];
@@ -367,7 +367,7 @@ class DataController
                 }
                 foreach ($HoursOrderByHS as $id_us => &$days) {
                     foreach ($days as $day => &$hour) {
-                        $hour += isset($HoursOrderByUS[$id_us][$day]['hs']) ? $HoursOrderByUS[$id_us][$day]['hs'] : 0;
+                        $hour += isset($HoursOrderByUS[$id_us][$day]['hs']) ? (int)$HoursOrderByUS[$id_us][$day]['hs'] : 0;
                     }
                 }
 
